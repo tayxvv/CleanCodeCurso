@@ -88,3 +88,16 @@ test("Não Deve poder solicitar uma corrida se o passageiro já tiver outra corr
     "Passenger has an active ride"
   );
 });
+
+test("Não deve poder solicitar uma corrida se a conta não existir", async function () {
+  const inputRequestRide = {
+    passengerId: "829649cd-d7d1-4bec-832d-6a8cce9693df",
+    fromLat: -27.584905257808835,
+    fromLong: -48.545022195325124,
+    toLat: -27.496887588317275,
+    toLong: -48.522234807851476,
+  };
+  expect(() => requestRide.execute(inputRequestRide)).rejects.toThrow(
+    new Error("Account does not exist")
+  );
+});

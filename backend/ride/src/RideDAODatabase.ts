@@ -53,4 +53,13 @@ export default class RideDAODatabase implements RideDAO {
 
     return ride;
   }
+
+  async update(ride: any) {
+    const connection = pgp()("postgres://tayssa:123abc@localhost:5432/app");
+    await connection.query(
+      "update cccat14.ride set status = $1, driver_id = $2 where ride_id = $3",
+      [ride.status, ride.driverId, ride.ride_id]
+    );
+    await connection.$pool.end();
+  }
 }
