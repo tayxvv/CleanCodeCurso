@@ -18,12 +18,12 @@ test.each(["06544656143", "71428793860", "87748248800"])(
 
     // when
     const responseSignUp = await axios.post(
-      "http://localhost:3000/signup",
+      "http://localhost:3001/signup",
       inputSignUp
     );
     const outputSignup = responseSignUp.data;
     const responseGetAccount = await axios.get(
-      `http://localhost:3000/accounts/${outputSignup.accountId}`
+      `http://localhost:3001/accounts/${outputSignup.accountId}`
     );
     const outputGetAccount = responseGetAccount.data;
     // then
@@ -48,7 +48,7 @@ test("Não deve criar uma conta se o nome for inválido", async function () {
   // when
 
   const responseSignUp = await axios.post(
-    "http://localhost:3000/signup",
+    "http://localhost:3001/signup",
     inputSignUp
   );
   expect(responseSignUp.status).toBe(422);
@@ -67,7 +67,7 @@ test("Não deve criar uma conta se o email for inválido", async function () {
 
   // when
   const responseSignUp = await axios.post(
-    "http://localhost:3000/signup",
+    "http://localhost:3001/signup",
     inputSignUp
   );
   expect(responseSignUp.status).toBe(422);
@@ -88,7 +88,7 @@ test.each(["", undefined, null, "111", "11111111111111", "11111111111"])(
 
     // when
     const responseSignUp = await axios.post(
-      "http://localhost:3000/signup",
+      "http://localhost:3001/signup",
       inputSignUp
     );
     expect(responseSignUp.status).toBe(422);
@@ -107,9 +107,9 @@ test("Não deve criar uma conta se o email for duplicado", async function () {
   };
 
   // when
-  await axios.post("http://localhost:3000/signup", inputSignUp);
+  await axios.post("http://localhost:3001/signup", inputSignUp);
   const responseSignUp = await axios.post(
-    "http://localhost:3000/signup",
+    "http://localhost:3001/signup",
     inputSignUp
   );
   const outputSignup = responseSignUp.data;
@@ -129,13 +129,13 @@ test("Deve criar uma conta para o motorista", async function () {
 
   // when
   const responseSignUp = await axios.post(
-    "http://localhost:3000/signup",
+    "http://localhost:3001/signup",
     inputSignUp
   );
   const outputSignup = responseSignUp.data;
   // @ts-ignore
   const responseGetAccount = await axios.get(
-    `http://localhost:3000/accounts/${outputSignup.accountId}`
+    `http://localhost:3001/accounts/${outputSignup.accountId}`
   );
   const outputGetAccount = responseGetAccount.data;
   // then
@@ -160,7 +160,7 @@ test("Não deve criar uma conta para o motorista com placa inválida", async fun
 
   // when
   const responseSignUp = await axios.post(
-    "http://localhost:3000/signup",
+    "http://localhost:3001/signup",
     inputSignUp
   );
   const outputSignup = responseSignUp.data;

@@ -3,6 +3,7 @@ import AccountDAO from "./AccountDAODatabase";
 import Signup from "./Signup";
 import GetAccount from "./GetAccount";
 import LoggerConsole from "./LoggerConsole";
+import AccountDAODatabase from "./AccountDAODatabase";
 
 const app = express();
 app.use(express.json());
@@ -10,7 +11,8 @@ app.use(express.json());
 app.post("/signup", async function (req: Request, res: Response) {
   try {
     const input = req.body;
-    const signup = new Signup(new AccountDAO(), new LoggerConsole());
+    const accountDAO = new AccountDAODatabase();
+    const signup = new Signup(accountDAO, new LoggerConsole());
     const output = await signup.execute(input);
     res.json(output);
   } catch (e: any) {
@@ -26,4 +28,4 @@ app.get("/accounts/:accountId", async function (req: Request, res: Response) {
   const output = await getAccount.execute(accountId);
   res.json(output);
 });
-app.listen(3000);
+app.listen(3001);

@@ -182,15 +182,18 @@ test("Deve criar uma conta para o passageiro com fake", async function () {
     isPassenger: true,
     password: "123456",
   };
+  const accounts: any = [];
   const accountDAO: AccountDAO = {
-    async save(account: any): Promise<void> {},
+    async save(account: any): Promise<void> {
+      accounts.push(account);
+    },
 
     async getById(accountId: string): Promise<any> {
-      return inputSignUp;
+      return accounts.find((account: any) => account.accountId === accountId);
     },
 
     async getByEmail(email: string): Promise<any> {
-      return undefined;
+      return accounts.find((account: any) => account.accountId === email);
     },
   };
 
