@@ -1,19 +1,22 @@
-import AccountDAODatabase from "../src/AccountDAODatabase";
-import GetAccount from "../src/GetAccount";
-import GetRide from "../src/GetRide";
-import LoggerConsole from "../src/LoggerConsole";
-import RequestRide from "../src/RequestRide";
-import Signup from "../src/Signup";
-import RideDAO from "../src/RideDAO";
-import RideDAODatabase from "../src/RideDAODatabase";
+import AccountDAODatabase from "../src/infra/repository/AccountRepositoryDatabase";
+import GetAccount from "../src/application/usecase/GetAccount";
+import GetRide from "../src/application/usecase/GetRide";
+import LoggerConsole from "../src/infra/logger/LoggerConsole";
+import RequestRide from "../src/application/usecase/RequestRide";
+import Signup from "../src/application/usecase/Signup";
+import RideDAO from "../src/application/repository/RideRepository";
+import RideDAODatabase from "../src/infra/repository/RideRepositoryDatabase";
+import PgPromiseAdapter from "../src/infra/database/PgPromiseAdapter";
 
 let signup: Signup;
 let getAccount: GetAccount;
 let requestRide: RequestRide;
 let getRide: GetRide;
+let databaseConnection: PgPromiseAdapter;
 
 beforeEach(() => {
-  const accountDAO = new AccountDAODatabase();
+  databaseConnection = new PgPromiseAdapter();
+  const accountDAO = new AccountDAODatabase(databaseConnection);
   const rideDAO = new RideDAODatabase();
   const logger = new LoggerConsole();
   signup = new Signup(accountDAO, logger);
@@ -100,4 +103,8 @@ test("Não deve poder solicitar uma corrida se a conta não existir", async func
   expect(() => requestRide.execute(inputRequestRide)).rejects.toThrow(
     new Error("Account does not exist")
   );
+});
+
+afterEach(async () => {
+  await databaseConnection.close();
 });
